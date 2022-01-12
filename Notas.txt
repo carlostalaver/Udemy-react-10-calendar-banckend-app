@@ -13,3 +13,4 @@ Pasos para iniciar el proyecto backen:
 
 3. npm i express@4.17.2 
 4. npm install dotenv: este package me permite trabajar con variables de entorno, ej: las que declaro en el archivo .env 
+5: npm i express-validator: para trabajar con las validaciones de los datos que llegan del front

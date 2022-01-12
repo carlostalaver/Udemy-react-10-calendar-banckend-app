@@ -8,12 +8,11 @@ const app = express();
 //Directorio publico
 app.use(express.static('public'));  // use es un middleware
 
-//Rutas
-/* app.get('/', (req, res) => {
-    res.json({
-        ok: true
-    })
-}) */
+//lectura y parseo del body
+app.use( express.json() )// para procesar las peticiones que vengan en formato json las proceso con este middleware
+
+//Rutas:
+app.use('/api/auth', require('./routes/auth'));
 
 
 // escuchar peticiones http
