@@ -1,0 +1,15 @@
+ 
+Pasos para iniciar el proyecto backen:
+1. npm init -y: crear el archivo package.json
+
+2. npm i nodemon -g: instala el proceso que estaráal pendiente de reconstruir el proyecto cada que haya una actualizacion
+    2.1: nodemon index.js: este comando ejecuta el archivo index.js
+    2.3: para evitar estar escribiendo el comando anterior, se debe modificar e archivo package.json, se agregan dos entradas en la prop scripts, dev y start:
+          "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1",
+            "dev": "nodemon index.js", -> para ejecutarla npm run dev
+            "start": "node index.js"   -> para ejecutarla npm start (aqui se omite en run porq este es comando por defecto)
+        },
+
+3. npm i express@4.17.2 
+4. npm install dotenv: este package me permite trabajar con variables de entorno, ej: las que declaro en el archivo .env 
