@@ -1,53 +1,104 @@
+const bcrypt = require('bcryptjs');
 const {response } = require('express'); // aqui importo nuevamente el express para no perder la ayuda de intellicense
-const { validationResult } = require('express-validator');
+const { generarJWT } = require('../helpers/jwt');
+const UsuarioModel = require('../models/UsuarioModel');
 
-const crearUsuario =  (req , res = response) => {
+
+const crearUsuario = async (req, res = response) => {
     // console.log(req)
-
-    const {name, email, password} = req.body;
-
-    //manejo de errores
-    const errores = validationResult( req );
-    if ( !errores.isEmpty() ) {
-        return res.status(400).json({
-            ok: false,
-            errores: errores.mapped()
-        })        
-    }
-    res.status(201).json({
-        ok: true,
-        msg:'registro',
-        name,
-        email,
-        password
-    })
-};
-
-
-const loginUsuario = (req , res = response) => {
-
     const {email, password} = req.body;
-    
-    //manejo de errores
-    const errores = validationResult( req );
-    if ( !errores.isEmpty() ) {
-        return res.status(400).json({
+    try {
+
+        let usuario = await UsuarioModel.findOne( {email: email }); // primero busco si existe ya un usuario registrado con el email que manda el front
+
+        if ( usuario ) {
+            res.status(400).json({
+                ok: false,
+                msg:`Ya existe un usuario registrado con el email ${ email }`
+            });
+        }
+
+
+        usuario = new UsuarioModel( req.body );
+
+        // encrypto la contraseña
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync(password, salt);
+        // grabo en la  BBDD
+        await usuario.save();
+
+        //genero el token
+        const token = await generarJWT( usuario.id, usuario.name );
+
+        res.status(201).json({
+            ok: true,
+            uid: usuario.id,
+            name: usuario.name,
+            token
+        })
+        
+    } catch (error) {
+        res.status(500).json({
             ok: false,
-            errores: errores.mapped()
-        })        
+            msg:'Ocurrio un error al intentar crear el usuario'
+        })
     }
-    res.json({
-        ok: true,
-        msg:'login',
-        email,
-        password
-    })
 };
 
-const revalidarToken = (req , res = response) => {
+
+const loginUsuario = async (req , res = response) => {
+
+    const { email, password } = req.body;
+
+    try {
+
+        let usuario = await UsuarioModel.findOne({email: email}); // primero busco si existe ya un usuario registrado con el email que manda el front
+
+        if ( !usuario ) {
+            res.status(400).json({
+                ok: false,
+                msg:`El usuario no existe con el email ${ email }` // lo ideal es indicar que el password o email son incorrectos, no decir que es uno o el otro
+            });
+        }
+
+        // validar que el password enviado hace match con el almacenado en BBDD
+        const validPassword =  bcrypt.compareSync(password, usuario.password);
+
+        if (!validPassword) {
+            res.status(400).json({
+                ok: false,
+                msg: 'Password invalido'
+            })
+        }
+        // generar el JWT
+        const token = await generarJWT( usuario.id, usuario.name );
+
+        res.status(201).json({
+            ok: true,
+            uid: usuario.id,
+            name: usuario.name,
+            token: token
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg:'Por favor comuniquese con el administrador'
+        })
+    }
+
+};
+
+const revalidarToken = async(req , res = response) => {
+
+    const { uid, name } = req;
+
+      //genero el token
+    const token = await generarJWT( uid, name );
+
     res.json({
         ok: true,
-        msg:'renew'
+        token
     })
 };
 

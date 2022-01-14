@@ -14,3 +14,11 @@ Pasos para iniciar el proyecto backen:
 3. npm i express@4.17.2 
 4. npm install dotenv: este package me permite trabajar con variables de entorno, ej: las que declaro en el archivo .env 
 5: npm i express-validator: para trabajar con las validaciones de los datos que llegan del front
+
+6. conexion a mongo db:
+  6.1: db user:   mern_user
+  6.2: password:  YBTvlKIoyAR9p9lE (lo generé en mongo)
+7. npm install mongoose --save: para instalar mongoose
+8. npm install bcryptjs: para encriptar las contraseña en mongo
+9.  npm i jsonwebtoken: para gestinar jwt
+10. npm i cors: para gestionar cors
