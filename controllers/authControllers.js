@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const {response } = require('express'); // aqui importo nuevamente el express para no perder la ayuda de intellicense
+const { response } = require('express'); // aqui importo nuevamente el express para no perder la ayuda de intellicense
 const { generarJWT } = require('../helpers/jwt');
 const UsuarioModel = require('../models/UsuarioModel');
 
@@ -10,6 +10,7 @@ const crearUsuario = async (req, res = response) => {
     try {
 
         let usuario = await UsuarioModel.findOne( {email: email }); // primero busco si existe ya un usuario registrado con el email que manda el front
+
 
         if ( usuario ) {
             res.status(400).json({

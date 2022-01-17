@@ -21,7 +21,7 @@ app.use( express.json() )// para procesar las peticiones que vengan en formato j
 
 //Rutas:
 app.use('/api/auth', require('./routes/auth'));
-
+app.use('/api/events', require('./routes/events'));
 
 // escuchar peticiones http
 app.listen( process.env.PORT, ()=> {

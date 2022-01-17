@@ -1,6 +1,8 @@
 const { response } = require('express');
 const { validationResult } = require('express-validator');
 
+
+/* Este es un meddleware personalizado que será llamado cuando necesite validar informacion que llega desde el front */
 const validarCampos = (req, res= response, next) => {
 
     //manejo de errores

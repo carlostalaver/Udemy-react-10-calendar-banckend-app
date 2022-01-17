@@ -21,4 +21,5 @@ Pasos para iniciar el proyecto backen:
 7. npm install mongoose --save: para instalar mongoose
 8. npm install bcryptjs: para encriptar las contraseña en mongo
 9.  npm i jsonwebtoken: para gestinar jwt
-10. npm i cors: para gestionar cors
+10. npm i cors: para gestionar cors.
+11. npm i moment: para gestionar fechas
