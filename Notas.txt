@@ -23,3 +23,4 @@ Pasos para iniciar el proyecto backen:
 9.  npm i jsonwebtoken: para gestinar jwt
 10. npm i cors: para gestionar cors.
 11. npm i moment: para gestionar fechas
+12: heroku --> user cristianmsilvah4356@gmail.com, password el.......2...*
