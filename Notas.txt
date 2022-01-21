@@ -24,4 +24,4 @@ Pasos para iniciar el proyecto backen:
 10. npm i cors: para gestionar cors.
 11. npm i moment: para gestionar fechas
 12: heroku --> user cristianmsilvah4356@gmail.com, password el.......2...*
-    para subir a heroku: npm push origin heroku
+    para subir a heroku: git push heroku master 
