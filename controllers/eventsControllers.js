@@ -9,13 +9,13 @@ const getEventos = async (req, res = response) => {
                                     
     try {
 
-        res.status(200).json({
+        return res.status(200).json({
             ok: true,
             eventos: eventos
         });
         
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg:'Ocurrio un error al intentar obtener los eventos'
         })
@@ -41,7 +41,7 @@ const crearEvento = async (req, res = response) => {
         });
         
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg:'Ocurrio un error al intentar crear el evento'
         })
@@ -87,7 +87,7 @@ const actualizarEvento = async (req, res = response) => {
         
     } catch (error) {
         console.log('Error ',error)
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg:'Ocurrio un error al intentar obtener el evento'
         })
@@ -120,13 +120,13 @@ const eliminarEvento = async (req, res = response) => {
 
         await EventoModel.findByIdAndDelete( eventoId );
 
-        res.status(200).json({
+        return res.status(200).json({
             ok: true,
             msg:`Evento con id ${ eventoId } ha sido eliminado`
         });
         
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg: 'Ocurrió un error al intentar crear el usuario'
         })
