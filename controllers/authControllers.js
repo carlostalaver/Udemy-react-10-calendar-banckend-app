@@ -5,32 +5,32 @@ const UsuarioModel = require('../models/UsuarioModel');
 
 
 const crearUsuario = async (req, res = response) => {
-    // console.log(req)
     const {email, password} = req.body;
     try {
-
+        
         let usuario = await UsuarioModel.findOne( {email: email }); // primero busco si existe ya un usuario registrado con el email que manda el front
-
-
+        
+        
         if ( usuario ) {
             res.status(400).json({
                 ok: false,
                 msg:`Ya existe un usuario registrado con el email ${ email }`
             });
         }
-
-
+        
+        
         usuario = new UsuarioModel( req.body );
-
+        
         // encrypto la contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
         // grabo en la  BBDD
         await usuario.save();
-
+        
         //genero el token
         const token = await generarJWT( usuario.id, usuario.name );
-
+        
+        console.log('---> token', token);
         res.status(201).json({
             ok: true,
             uid: usuario.id,
